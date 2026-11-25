@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+apk="$(realpath "${1:?APK path required}")"
+build_tools="${2:?Android build-tools directory required}"
+report="${3:?Verification output directory required}"
+mkdir -p "$report"
+
+unzip -tq "$apk"
+"$build_tools/apksigner" verify --min-sdk-version 26 --verbose --print-certs "$apk" > "$report/signature.txt"
+"$build_tools/zipalign" -c -P 16 -v 4 "$apk" > "$report/zipalign.txt"
+"$build_tools/aapt" dump xmltree "$apk" AndroidManifest.xml > "$report/manifest.txt"
+"$build_tools/aapt" dump badging "$apk" > "$report/badging.txt"
+grep -Eq "^package: name='org[.]shanghaiskyline[.]g0' versionCode='1' versionName='1[.]0[.]0'" "$report/badging.txt"
+grep -Fx "application-label:'魔都天际线'" "$report/badging.txt"
+grep -Fx "sdkVersion:'26'" "$report/badging.txt"
+grep -Fx "targetSdkVersion:'36'" "$report/badging.txt"
+grep -Eq "^launchable-activity: name='[^']+'" "$report/badging.txt"
+grep -Fx "native-code: 'arm64-v8a'" "$report/badging.txt"
+unzip -Z1 "$apk" > "$report/entries.txt"
+grep -Fx 'lib/arm64-v8a/libil2cpp.so' "$report/entries.txt"
+(cd "$(dirname "$apk")" && sha256sum "$(basename "$apk")") > "$report/SHA256SUMS"

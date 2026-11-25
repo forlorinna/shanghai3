@@ -1,0 +1,11 @@
+feature_id,old_status,old_path,new_module,test_id,new_status,blocker
+legacy_inventory,unknown,,,,blocked,Godot source and old signed APK unavailable
+world_geography,unknown,,Geo,,not_started,Legacy coverage and source licences unavailable
+walking,unknown,,Player,,not_started,Legacy source unavailable and G0 blocked
+driving,unknown,,Vehicles,,not_started,Legacy source unavailable and G0 blocked
+flight_and_rooftops,unknown,,Flight,,not_started,Legacy source unavailable and G0 blocked
+world_time_and_weather,unknown,,WorldState,,not_started,Legacy source unavailable and G0 blocked
+crowd_and_traffic,unknown,,WorldSimulation,,not_started,Legacy source unavailable and G0 blocked
+map_and_touch,unknown,,UI,,not_started,Legacy source unavailable and G0 blocked
+missions_and_sandbox,unknown,,Gameplay,,not_started,Legacy source unavailable and G0 blocked
+save_and_upgrade,unknown,,Save,,blocked,Legacy save format identity and signing certificate unavailable

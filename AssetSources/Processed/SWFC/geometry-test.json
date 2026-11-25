@@ -1,0 +1,24 @@
+{
+  "front_to_back_portal": "pass",
+  "back_to_front_portal": "pass",
+  "solid_portal_jamb": "pass",
+  "solid_below_sill": "pass",
+  "solid_above_lintel": "pass",
+  "narrower_at_bottom": "pass",
+  "wider_at_top": "pass",
+  "height_m": 492.0,
+  "vertices": 816,
+  "faces": 812,
+  "glb_reimport": {
+    "front_to_back_portal": "pass",
+    "back_to_front_portal": "pass",
+    "solid_portal_jamb": "pass",
+    "solid_below_sill": "pass",
+    "solid_above_lintel": "pass",
+    "narrower_at_bottom": "pass",
+    "wider_at_top": "pass",
+    "height_m": 492.0,
+    "vertices": 2312,
+    "faces": 1632
+  }
+}

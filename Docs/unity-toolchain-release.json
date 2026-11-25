@@ -1,0 +1,177 @@
+{
+  "version": "6000.3.29f1",
+  "shortRevision": "96d2fe17529c",
+  "releaseDate": "2026-11-19T10:35:33.074Z",
+  "editor": {
+    "platform": "LINUX",
+    "architecture": "X86_64",
+    "url": "https://download.unity3d.com/download_unity/96d2fe17529c/LinuxEditorInstaller/Unity-6000.3.29f1.tar.xz",
+    "integrity": "md5-JYPL4d3Pzz6M+qtIWm3MvQ==",
+    "downloadSize": {
+      "value": 4559304568,
+      "unit": "BYTE"
+    },
+    "installedSize": {
+      "value": 8749926400,
+      "unit": "BYTE"
+    }
+  },
+  "android": [
+    {
+      "id": "android",
+      "url": "https://download.unity3d.com/download_unity/96d2fe17529c/MacEditorTargetInstaller/UnitySetup-Android-Support-for-Editor-6000.3.29f1.pkg",
+      "integrity": "md5-g2r5uos+15wDchL8DkmwLA==",
+      "downloadSize": {
+        "value": 2117332859,
+        "unit": "BYTE"
+      },
+      "installedSize": {
+        "value": 4234665718,
+        "unit": "BYTE"
+      }
+    },
+    {
+      "id": "android-open-jdk-17.0.21+9",
+      "url": "https://download.unity3d.com/download_unity/open-jdk/open-jdk-linux-x64/jdk17.0.21-9_9655b4326993de27c59a5b2b5a64a52a800f3a6db70da6cdeb98f634764c1960.zip",
+      "integrity": "",
+      "downloadSize": {
+        "value": 119365673,
+        "unit": "BYTE"
+      },
+      "installedSize": {
+        "value": 252924003,
+        "unit": "BYTE"
+      }
+    },
+    {
+      "id": "android-sdk-ndk-tools",
+      "url": "https://download.unity3d.com/download_unity/android-sdk-tools/1_5312bb398affd0d94b90d3780976e1a162aa91944ef6bb40c8feb10ad6cc360d.zip",
+      "integrity": "",
+      "downloadSize": {
+        "value": 166,
+        "unit": "BYTE"
+      },
+      "installedSize": {
+        "value": 1,
+        "unit": "BYTE"
+      }
+    },
+    {
+      "id": "android-ndk-r27c",
+      "url": "https://dl.google.com/android/repository/android-ndk-r27c-linux.zip",
+      "integrity": "",
+      "downloadSize": {
+        "value": 663987688,
+        "unit": "BYTE"
+      },
+      "installedSize": {
+        "value": 2053737567,
+        "unit": "BYTE"
+      }
+    },
+    {
+      "id": "cmake-3.22.1",
+      "url": "https://dl.google.com/android/repository/cmake-3.22.1-linux.zip",
+      "integrity": "",
+      "downloadSize": {
+        "value": 22308647,
+        "unit": "BYTE"
+      },
+      "installedSize": {
+        "value": 53059675,
+        "unit": "BYTE"
+      }
+    },
+    {
+      "id": "android-sdk-build-tools-36.0.0",
+      "url": "https://dl.google.com/android/repository/build-tools_r36_linux.zip",
+      "integrity": "",
+      "downloadSize": {
+        "value": 63737259,
+        "unit": "BYTE"
+      },
+      "installedSize": {
+        "value": 153141817,
+        "unit": "BYTE"
+      }
+    },
+    {
+      "id": "android-sdk-platform-tools-37.0.1",
+      "url": "https://dl.google.com/android/repository/platform-tools_r37.0.1-linux.zip",
+      "integrity": "",
+      "downloadSize": {
+        "value": 9054187,
+        "unit": "BYTE"
+      },
+      "installedSize": {
+        "value": 22198160,
+        "unit": "BYTE"
+      }
+    },
+    {
+      "id": "android-sdk-platforms-34",
+      "url": "https://dl.google.com/android/repository/platform-34-ext7_r02.zip",
+      "integrity": "",
+      "downloadSize": {
+        "value": 63180079,
+        "unit": "BYTE"
+      },
+      "installedSize": {
+        "value": 99855424,
+        "unit": "BYTE"
+      }
+    },
+    {
+      "id": "android-sdk-platforms-35",
+      "url": "https://dl.google.com/android/repository/platform-35_r01.zip",
+      "integrity": "",
+      "downloadSize": {
+        "value": 64281654,
+        "unit": "BYTE"
+      },
+      "installedSize": {
+        "value": 102618237,
+        "unit": "BYTE"
+      }
+    },
+    {
+      "id": "android-sdk-platforms-36",
+      "url": "https://dl.google.com/android/repository/platform-36_r02.zip",
+      "integrity": "",
+      "downloadSize": {
+        "value": 65878410,
+        "unit": "BYTE"
+      },
+      "installedSize": {
+        "value": 106177284,
+        "unit": "BYTE"
+      }
+    },
+    {
+      "id": "android-sdk-platforms-37.0",
+      "url": "https://dl.google.com/android/repository/platform-37.0_r02.zip",
+      "integrity": "",
+      "downloadSize": {
+        "value": 67281901,
+        "unit": "BYTE"
+      },
+      "installedSize": {
+        "value": 124986304,
+        "unit": "BYTE"
+      }
+    },
+    {
+      "id": "android-sdk-command-line-tools-21.0",
+      "url": "https://dl.google.com/android/repository/commandlinetools-linux-15641748_latest.zip",
+      "integrity": "sha384-AAmPbqc2c1AjDDGMrWVjXKsNJVb6KHwwiR/oM9dU8vfrmssYD+twqdRUNscOEgAd",
+      "downloadSize": {
+        "value": 174244366,
+        "unit": "BYTE"
+      },
+      "installedSize": {
+        "value": 174216486,
+        "unit": "BYTE"
+      }
+    }
+  ]
+}

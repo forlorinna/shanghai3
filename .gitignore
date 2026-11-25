@@ -1,0 +1,13 @@
+/UnityProject/Library/
+/UnityProject/Temp/
+/UnityProject/Logs/
+/UnityProject/Obj/
+/UnityProject/UserSettings/
+/Builds/g0.*/
+/Builds/*.apk
+/AssetSources/**/*.blend1
+**/__pycache__/
+/build/
+/apk-artifact/
+/ci-diagnostics/
+/Builds/*.zip

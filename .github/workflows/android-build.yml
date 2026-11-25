@@ -1,0 +1,140 @@
+name: Android APK (G0)
+
+on:
+  workflow_dispatch:
+    inputs:
+      preflight_only:
+        description: Measure disk and pull the image without activating Unity or building
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: skyline-android-${{ github.repository }}
+  cancel-in-progress: false
+
+env:
+  SKYLINE_IMAGE: unityci/editor@sha256:eabac80a6898fc4cb5e210b852c15050cdcfdefd00b30b1898372bd26355d5fe
+
+jobs:
+  apk:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+
+      - name: Verify Unity Secrets are configured
+        if: ${{ !inputs.preflight_only }}
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        run: |
+          for key in UNITY_LICENSE UNITY_EMAIL UNITY_PASSWORD; do
+            if [[ -z "${!key}" ]]; then
+              echo "::error::Missing GitHub Actions repository secret $key"
+              exit 1
+            fi
+          done
+
+      - name: Reclaim unused space and measure Docker storage
+        run: |
+          mkdir -p ci-diagnostics
+          docker_root="$(docker info --format '{{.DockerRootDir}}')"
+          {
+            df -h / "$GITHUB_WORKSPACE" "$RUNNER_TEMP" "$docker_root"
+            docker system df
+            # These preinstalled toolchains are unused on this ephemeral hosted runner.
+            for unused in /usr/share/dotnet /usr/share/swift /usr/local/.ghcup /opt/hostedtoolcache/CodeQL; do
+              if [[ -d "$unused" && ! -L "$unused" ]]; then
+                sudo du -sh -- "$unused"
+                sudo rm -rf -- "$unused"
+              fi
+            done
+            df -h / "$GITHUB_WORKSPACE" "$RUNNER_TEMP" "$docker_root"
+            free_bytes="$(df -B1 --output=avail "$docker_root" | tail -n1)"
+            if (( free_bytes < 24 * 1024 * 1024 * 1024 )); then
+              echo "::error::Docker storage has ${free_bytes} bytes free after cleanup. The pull budget for this workflow is 24 GiB."
+              exit 1
+            fi
+          } 2>&1 | tee ci-diagnostics/disk-before-pull.txt
+
+      - name: Pull pinned GameCI Android image and measure footprint
+        run: |
+          docker_root="$(docker info --format '{{.DockerRootDir}}')"
+          {
+            docker pull "$SKYLINE_IMAGE"
+            docker image inspect "$SKYLINE_IMAGE" --format 'Image: {{.Id}}; platform: {{.Os}}/{{.Architecture}}; reported bytes: {{.Size}}'
+            docker system df
+            df -h / "$GITHUB_WORKSPACE" "$RUNNER_TEMP" "$docker_root"
+            for path in "$GITHUB_WORKSPACE" "$RUNNER_TEMP" "$docker_root"; do
+              free_bytes="$(df -B1 --output=avail "$path" | tail -n1)"
+              if (( free_bytes < 6 * 1024 * 1024 * 1024 )); then
+                echo "::error::$path has ${free_bytes} bytes free after the pull. G0 build budget is 6 GiB."
+                exit 1
+              fi
+            done
+          } 2>&1 | tee ci-diagnostics/disk-after-pull.txt
+
+      - name: Build the URP Android APK
+        if: ${{ !inputs.preflight_only }}
+        uses: game-ci/unity-builder@4423ee75828dff56037d1d1cfdac6b68e3a6ba00 # v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: Android
+          projectPath: UnityProject
+          unityVersion: 6000.3.29f1
+          customImage: ${{ env.SKYLINE_IMAGE }}
+          buildMethod: Skyline.Editor.BuildPipelineEntry.BuildAndroid
+          buildName: Shanghai-Skyline-Unity-G0-arm64-debug-signed
+          buildsPath: build
+          androidExportType: androidPackage
+          androidTargetSdkVersion: AndroidApiLevel36
+          versioning: None
+
+      - name: Verify signature, manifest, ABI and checksum
+        if: ${{ !inputs.preflight_only }}
+        run: |
+          apk="$PWD/build/Android/Shanghai-Skyline-Unity-G0-arm64-debug-signed.apk"
+          mkdir -p "$PWD/apk-artifact"
+          cp "$apk" "$PWD/apk-artifact/"
+          # Use the Android tooling in the same pinned image as the build.
+          docker run --rm --user "$(id -u):$(id -g)" --network none \
+            --mount "type=bind,source=$PWD/Tools,target=/tools,readonly" \
+            --mount "type=bind,source=$PWD/apk-artifact,target=/artifact" \
+            --entrypoint /bin/bash "$SKYLINE_IMAGE" -euo pipefail -c '
+              export JAVA_HOME="$(awk -F= "/^JAVA_HOME=/{print \$2}" /usr/bin/unity-editor.d/*)"
+              export PATH="$JAVA_HOME/bin:$PATH"
+              sdk="$(awk -F= "/^ANDROID_HOME=/{print \$2}" /usr/bin/unity-editor.d/*)"
+              /tools/verify_android_apk.sh /artifact/Shanghai-Skyline-Unity-G0-arm64-debug-signed.apk "$sdk/build-tools/36.0.0" /artifact/verification
+            '
+          printf '%s\n' "$GITHUB_SHA" > apk-artifact/verification/source-commit.txt
+          printf '%s\n' "$SKYLINE_IMAGE" > apk-artifact/verification/build-image.txt
+          sha256sum Docs/ASSET_MANIFEST.csv > apk-artifact/verification/asset-manifest.sha256
+
+      - name: Upload verified APK
+        if: ${{ !inputs.preflight_only }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: Shanghai-Skyline-G0-APK
+          path: apk-artifact/
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
+
+      - name: Upload disk diagnostics
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: Skyline-Android-disk
+          path: ci-diagnostics/
+          if-no-files-found: ignore
+          retention-days: 7
