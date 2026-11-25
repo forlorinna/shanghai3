@@ -11,6 +11,10 @@ on:
 permissions:
   contents: read
 
+defaults:
+  run:
+    shell: bash
+
 concurrency:
   group: skyline-android-${{ github.repository }}
   cancel-in-progress: false
@@ -111,10 +115,8 @@ jobs:
             --mount "type=bind,source=$PWD/Tools,target=/tools,readonly" \
             --mount "type=bind,source=$PWD/apk-artifact,target=/artifact" \
             --entrypoint /bin/bash "$SKYLINE_IMAGE" -euo pipefail -c '
-              export JAVA_HOME="$(awk -F= "/^JAVA_HOME=/{print \$2}" /usr/bin/unity-editor.d/*)"
-              export PATH="$JAVA_HOME/bin:$PATH"
-              sdk="$(awk -F= "/^ANDROID_HOME=/{print \$2}" /usr/bin/unity-editor.d/*)"
-              /tools/verify_android_apk.sh /artifact/Shanghai-Skyline-Unity-G0-arm64-debug-signed.apk "$sdk/build-tools/36.0.0" /artifact/verification
+              source /usr/bin/unity-editor.d/android-2019+.sh
+              /tools/verify_android_apk.sh /artifact/Shanghai-Skyline-Unity-G0-arm64-debug-signed.apk "$ANDROID_SDK_ROOT/build-tools/36.0.0" /artifact/verification
             '
           printf '%s\n' "$GITHUB_SHA" > apk-artifact/verification/source-commit.txt
           printf '%s\n' "$SKYLINE_IMAGE" > apk-artifact/verification/build-image.txt
