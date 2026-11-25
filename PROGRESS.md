@@ -14,3 +14,7 @@
 ## GitHub Actions 迁移
 
 云端构建已改走 GitHub 私有仓库 `forlorinna/shanghai3` 的标准托管 Runner 和 GameCI 固定镜像。[磁盘预检](https://github.com/forlorinna/shanghai3/actions/runs/45527428488)通过，镜像拉取后实际可用 8.9 GiB。[首次构建](https://github.com/forlorinna/shanghai3/actions/runs/45528088581)因缺少 `UNITY_LICENSE` 在 Secrets 检查退出。请在仓库 Actions Secrets 配置合法 Unity 凭据，随后可恢复 G0。外滩五栋建筑身份及门牌已查证，旧版玩法状态继续标记为未知。当前无 Unity APK。
+
+## 手机浏览器路线
+
+已测试官方 Unity Hub 4.0.2 的云端启动。当前桌面因 X11 共享内存图形错误未显示登录页，未激活 Personal。Unity 托管 Build Automation 已有项目侧预导出入口，手机配置步骤见 `Docs/PHONE_ONLY_UNITY.md`，账号侧尚未配置，现有 GitHub Actions 工作流照常保留。环球金融中心几何已添加米制 UV，保留原有双格式射线通过记录，并新增一张已下载校验的冠部照片。

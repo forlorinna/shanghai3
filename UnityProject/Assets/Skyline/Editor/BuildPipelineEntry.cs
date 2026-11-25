@@ -1,6 +1,6 @@
 using System;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
@@ -20,6 +20,7 @@ namespace Skyline.Editor
         public static void BuildAndroid()
         {
             SetupProject();
+            PlayerSettings.Android.useCustomKeystore = false;
             var output = Environment.GetEnvironmentVariable("SKYLINE_APK_PATH");
             if (string.IsNullOrEmpty(output))
             {
@@ -69,12 +70,12 @@ namespace Skyline.Editor
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
             PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel26;
             PlayerSettings.Android.targetSdkVersion = (AndroidSdkVersions)36;
-            PlayerSettings.Android.useCustomKeystore = false;
             PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.Android, false);
             PlayerSettings.SetGraphicsAPIs(BuildTarget.Android, new[] { GraphicsDeviceType.Vulkan });
             EditorUserBuildSettings.buildAppBundle = false;
 
             GenerateScene();
+            EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(Scene, true) };
             AssetDatabase.SaveAssets();
         }
 

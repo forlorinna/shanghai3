@@ -9,6 +9,7 @@
   "height_m": 492.0,
   "vertices": 816,
   "faces": 812,
+  "uv_corners": 3256,
   "glb_reimport": {
     "front_to_back_portal": "pass",
     "back_to_front_portal": "pass",
@@ -19,6 +20,7 @@
     "wider_at_top": "pass",
     "height_m": 492.0,
     "vertices": 2312,
-    "faces": 1632
+    "faces": 1632,
+    "uv_corners": 4896
   }
 }

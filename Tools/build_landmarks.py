@@ -66,7 +66,21 @@ def tower_mesh():
         raise RuntimeError("Invalid tower winding")
     with_mesh.to_mesh(mesh)
     with_mesh.free()
+    mesh.update()
+    add_surface_uvs(mesh)
     return mesh
+
+
+def add_surface_uvs(mesh):
+    """Project faces in metre units for later material studies."""
+    uv_layer = mesh.uv_layers.new(name="Surface metres")
+    for face in mesh.polygons:
+        normal = face.normal
+        projection = max(range(3), key=lambda axis: abs(normal[axis]))
+        horizontal, vertical = ((1, 2), (0, 2), (0, 1))[projection]
+        for loop_index in face.loop_indices:
+            point = mesh.vertices[mesh.loops[loop_index].vertex_index].co
+            uv_layer.data[loop_index].uv = (point[horizontal], point[vertical])
 
 
 def verify(mesh):
@@ -89,7 +103,11 @@ def verify(mesh):
         results[name] = "pass"
     if max(v.co.z for v in mesh.vertices) != HEIGHT:
         raise RuntimeError("Unexpected tower height")
-    results.update(height_m=HEIGHT, vertices=len(mesh.vertices), faces=len(mesh.polygons))
+    uv_layer = mesh.uv_layers.active
+    if uv_layer is None or len(uv_layer.data) != len(mesh.loops):
+        raise RuntimeError("Missing surface UV coordinates")
+    results.update(height_m=HEIGHT, vertices=len(mesh.vertices), faces=len(mesh.polygons),
+                   uv_corners=len(uv_layer.data))
     return results
 
 
