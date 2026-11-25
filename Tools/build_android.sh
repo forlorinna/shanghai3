@@ -34,4 +34,5 @@ fi
     -buildTarget Android -executeMethod Skyline.Editor.BuildPipelineEntry.BuildAndroid \
     -logFile "$output/unity.log"
 "$root/Tools/verify_android_apk.sh" "$SKYLINE_APK_PATH" "$build_tools" "$output/verification"
+python3 "$root/Tools/verify_android_elf.py" "$SKYLINE_APK_PATH" > "$output/verification/elf-alignment.txt"
 printf '%s\n' "$SKYLINE_APK_PATH"

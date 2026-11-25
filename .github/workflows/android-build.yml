@@ -118,6 +118,7 @@ jobs:
               source /usr/bin/unity-editor.d/android-2019+.sh
               /tools/verify_android_apk.sh /artifact/Shanghai-Skyline-Unity-G0-arm64-debug-signed.apk "$ANDROID_SDK_ROOT/build-tools/36.0.0" /artifact/verification
             '
+          python3 Tools/verify_android_elf.py "$apk" > apk-artifact/verification/elf-alignment.txt
           printf '%s\n' "$GITHUB_SHA" > apk-artifact/verification/source-commit.txt
           printf '%s\n' "$SKYLINE_IMAGE" > apk-artifact/verification/build-image.txt
           sha256sum Docs/ASSET_MANIFEST.csv > apk-artifact/verification/asset-manifest.sha256
