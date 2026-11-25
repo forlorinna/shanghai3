@@ -10,3 +10,7 @@
 继续执行 G0 需要原 Godot 源码，以及具备足够磁盘、已激活 Unity 6 LTS、Android Build Support、SDK/NDK 和配套 OpenJDK 的环境。在该环境执行 `Tools/build_android.sh` 后，检查设备安装、飞行模式首次启动和触控。当前无 APK。
 
 另已保存 8 个方向的 Blender CPU 轮廓图及合成预览 `AssetSources/Processed/SWFC/SWFC-review.png`。对岸实拍原图及署名已随源资料保存。轮廓预览只供几何评审，Unity/Android 视觉验收待运行。
+
+## GitHub Actions 迁移
+
+云端构建已改走 GitHub 私有仓库 `forlorinna/shanghai3` 的标准托管 Runner 和 GameCI 固定镜像。[磁盘预检](https://github.com/forlorinna/shanghai3/actions/runs/45527428488)通过，镜像拉取后实际可用 8.9 GiB。[首次构建](https://github.com/forlorinna/shanghai3/actions/runs/45528088581)因缺少 `UNITY_LICENSE` 在 Secrets 检查退出。请在仓库 Actions Secrets 配置合法 Unity 凭据，随后可恢复 G0。外滩五栋建筑身份及门牌已查证，旧版玩法状态继续标记为未知。当前无 Unity APK。

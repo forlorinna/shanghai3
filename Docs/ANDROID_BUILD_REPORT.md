@@ -14,3 +14,5 @@
 | Android | APK、签名、安装、离线首次运行、16 KB 原生库兼容、Vulkan 和 Android 16 真机测试均未执行。 |
 
 G0 构建源码已配置显示名《魔都天际线》、独立测试 applicationId、URP、线性色彩、ARM64、IL2CPP、Vulkan、横屏及 API 36 目标。首次受支持环境执行将生成验证场景、材质和包锁定文件，目前尚无 Unity 编译结果或生成场景。
+
+后续托管构建已切换至 GitHub Actions，固定 GameCI 镜像成功拉取后剩余 8.9 GiB。完整构建在 GitHub Secrets 检查因缺少 `UNITY_LICENSE` 退出，详见 [当前 CI 记录](GITHUB_ANDROID_CI.md)。
