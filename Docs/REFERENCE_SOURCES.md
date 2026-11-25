@@ -10,3 +10,5 @@
 | 陆家嘴全景 | [Wikimedia Commons 摄影](https://commons.wikimedia.org/wiki/File:Shanghai_-_Lujiazui_view_from_the_Bund.jpg) | 已下载 CHMunro 的 CC BY 4.0 原图，拍于 2023-11-12，拍摄点 31.242744° N、121.486636° E，35 mm 等效焦距为 23 mm。原图存于 AssetSources/Reference。 |
 
 建筑师、运营方和政府站点作为观察资料。工程仅内置由 Poly Haven 授权的摄影贴图。
+
+外滩第一批五栋已用主管部门资料核对名称与门牌。和平饭店南北楼各有独立名录编号。汇丰大楼官方文旅资料列中山东一路 10–12 号。海关及中行门牌与市政府、民政局或文旅资料交叉核对。距离、朝向、地理坐标和材质字段保持待测。 [历史建筑名录](https://fgj.sh.gov.cn/yxlsjz/20200331/fe7b4d6f35774b708a2c5122849065bd.html) · [建筑可阅读](https://whlyj.sh.gov.cn/cmsres/4a/4a7d26177d1247b981b1c8cb1a2cf2db/36de251995ec8bac1342cc62fdf305a0.pdf) · [海关开放记录](https://www.shanghai.gov.cn/nw17239/20251016/c76cc55e5b0345779b3461d653936c82.html)

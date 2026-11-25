@@ -11,7 +11,14 @@ unzip -tq "$apk"
 "$build_tools/aapt" dump xmltree "$apk" AndroidManifest.xml > "$report/manifest.txt"
 "$build_tools/aapt" dump badging "$apk" > "$report/badging.txt"
 grep -Eq "^package: name='org[.]shanghaiskyline[.]g0' versionCode='1' versionName='1[.]0[.]0'" "$report/badging.txt"
-grep -Fx "application-label:'魔都天际线'" "$report/badging.txt"
+if ! grep -Fxq "application-label:'魔都天际线'" "$report/badging.txt"; then
+    awk '
+        /^    E: application / { application = 1; next }
+        application && /^      E:/ { application = 0 }
+        application && /^      A: android:label\(0x[0-9a-f]+\)="魔都天际线"/ { found = 1 }
+        END { exit !found }
+    ' "$report/manifest.txt"
+fi
 grep -Fx "sdkVersion:'26'" "$report/badging.txt"
 grep -Fx "targetSdkVersion:'36'" "$report/badging.txt"
 grep -Eq "^launchable-activity: name='[^']+'" "$report/badging.txt"
